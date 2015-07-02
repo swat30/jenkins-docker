@@ -1,6 +1,6 @@
 FROM java:8u45-jdk
 
-RUN apt-get update && apt-get install -y wget git curl zip && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y wget git curl zip build-essential python-dev libmysqlclient-dev libffi-dev && rm -rf /var/lib/apt/lists/*
 
 ENV JENKINS_HOME /var/jenkins_home
 
@@ -31,6 +31,9 @@ RUN curl -fL http://mirrors.jenkins-ci.org/war-stable/$JENKINS_VERSION/jenkins.w
 
 ENV JENKINS_UC https://updates.jenkins-ci.org
 RUN chown -R jenkins "$JENKINS_HOME" /usr/share/jenkins/ref
+
+# Install Docker for docker pulls/pushes
+RUN curl -sSL https://get.docker.com/ | sh
 
 # for main web interface:
 EXPOSE 8080
